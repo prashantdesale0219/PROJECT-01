@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+        }
+        .container .card{
+            border: 2px solid gold;
+            text-align: center;
+            background-color: cornsilk;
+        }
+        .container .card h2{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+    </div>
+</body>
+</html>
+<script>
+    function coronadata(){
+        fetch("https://api.rootnet.in/covid19-in/stats/latest")
+        .then(res=>res.json())
+        .then(res=>connect(res.data.regional))
+        .catch(err=>console.log(err.data))
+    }
+    coronadata();
+    
+    function cardlist(loc,confirmedCasesIndian,confirmedCasesForeign,discharged,deaths,totalConfirmed){
+        let card=`<div class="card">
+            <h4>"loc": ${loc} </h4>
+            <h5>"confirmedCasesIndian": ${confirmedCasesIndian}</h5>
+            <p>"confirmedCasesForeign":${confirmedCasesForeign}</p>
+            <h4>"discharged": ${discharged}</h4>
+            <h2>"deaths":${deaths}</h2>
+            <h5>"totalConfirmed": ${totalConfirmed}</h5>
+        </div>
+        `
+        return card
+    }
+
+    function connect(regional){
+        let store=regional.map((el=>{
+            return cardlist(el.loc,el.confirmedCasesIndian,el.confirmedCasesForeign,el.discharged,el.deaths,el.totalConfirmed)
+        }))
+        document.querySelector(".container").innerHTML=store.join("")
+    }
+
+   
+</script>
