@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0%;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+        .container{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            text-align: center;
+            margin: auto;
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+    </div>
+    
+</body>
+</html>
+<script>
+
+     function weatherData(){
+        fetch("https://reqres.in/api/users?page=2")
+        .then(response => response.json())
+        .then(data => cardlist(data.data))
+        .catch(error =>console.log(error))
+     }
+     weatherData()
+
+    function cardlist(data){
+        let store=data.map((el)=>{
+            return card(el.id, el.email, el.first_name,el.last_name,el.avatar)
+        })
+        document.querySelector(".container").innerHTML=store.join("")
+
+    }
+
+    function card( id,email,first_name,last_name,avatar) {
+        let card = `
+        <div class="card">
+            <img src="${avatar}" alt="" width="300px">
+            <h3>id: ${id}</h3>
+            <h3>title : "${email}"</h3>
+            <h3>first_name : "${first_name}"</h3>
+            <h3>last_name : "${last_name}"</h3>
+        </div>
+        
+        `
+        return card
+    }
+
+</script>
